@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Higor Silva | Dev Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --neon: #00ffe0;
+      --neon2: #7b5ea7;
+      --bg: #090d14;
+      --surface: #0f1623;
+      --border: #1a2540;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      color: #c8d6f0;
+      font-family: 'Syne', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .mono { font-family: 'Space Mono', monospace; }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,255,224,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,224,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .neon-text {
+      color: var(--neon);
+      text-shadow: 0 0 8px rgba(0,255,224,0.6), 0 0 30px rgba(0,255,224,0.2);
+    }
+
+    .neon-border {
+      border: 1px solid var(--neon);
+      box-shadow: 0 0 12px rgba(0,255,224,0.15), inset 0 0 12px rgba(0,255,224,0.03);
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,255,224,0.04), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .card:hover {
+      border-color: rgba(0,255,224,0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,255,224,0.1);
+    }
+
+    .card:hover::before { opacity: 1; }
+
+    .scanlines::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.08) 2px,
+        rgba(0,0,0,0.08) 4px
+      );
+      pointer-events: none;
+    }
+
+    .tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      padding: 2px 10px;
+      border-radius: 2px;
+      background: rgba(0,255,224,0.08);
+      border: 1px solid rgba(0,255,224,0.25);
+      color: var(--neon);
+    }
+
+    .skill-bar-bg {
+      background: var(--border);
+      border-radius: 2px;
+      height: 4px;
+      overflow: hidden;
+    }
+
+    .skill-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--neon), #7b5ea7);
+      border-radius: 2px;
+      animation: fillBar 1.5s ease forwards;
+      transform-origin: left;
+    }
+
+    @keyframes fillBar {
+      from { width: 0%; }
+    }
+
+    .blink {
+      animation: blink 1.2s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.7s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.25s; }
+    .delay-3 { animation-delay: 0.4s; }
+    .delay-4 { animation-delay: 0.55s; }
+    .delay-5 { animation-delay: 0.7s; }
+
+    nav a {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: #7a8fa8;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--neon); }
+
+    .hero-gradient {
+      background: radial-gradient(ellipse 60% 50% at 70% 50%, rgba(0,255,224,0.06), transparent),
+                  radial-gradient(ellipse 40% 60% at 20% 80%, rgba(123,94,167,0.07), transparent);
+    }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--neon);
+      opacity: 0.7;
+    }
+
+    .btn-primary {
+      background: transparent;
+      border: 1px solid var(--neon);
+      color: var(--neon);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      padding: 10px 24px;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: rgba(0,255,224,0.08);
+      box-shadow: 0 0 20px rgba(0,255,224,0.2);
+    }
+
+    .contact-input {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: #c8d6f0;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      padding: 12px 16px;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .contact-input:focus {
+      border-color: rgba(0,255,224,0.5);
+    }
+
+    .contact-input::placeholder { color: #3a4f6a; }
+
+    .timeline-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--neon);
+      box-shadow: 0 0 8px var(--neon);
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+
+    .vertical-line {
+      width: 1px;
+      background: linear-gradient(to bottom, var(--neon), transparent);
+      margin-left: 4px;
+    }
+
+    /* Coming Soon card */
+    .coming-soon-card {
+      background: var(--surface);
+      border: 1px dashed rgba(0,255,224,0.2);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 280px;
+      transition: border-color 0.3s;
+    }
+
+    .coming-soon-card:hover {
+      border-color: rgba(0,255,224,0.4);
+    }
+
+    .coming-soon-pulse {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+<body class="relative">
+
+  <!-- NAV -->
+  <nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-5"
+       style="background: rgba(9,13,20,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);">
+    <span class="mono text-sm font-bold" style="color: var(--neon);">higor<span class="blink">_</span></span>
+    <div class="flex gap-8">
+      <a href="#sobre">sobre</a>
+      <a href="#skills">skills</a>
+      <a href="#projetos">projetos</a>
+      <a href="#experiencia">exp.</a>
+      <a href="#contato">contato</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-gradient scanlines relative min-h-screen flex items-center px-8 md:px-20 pt-24" style="z-index:1;">
+    <div class="max-w-5xl w-full mx-auto">
+      <p class="section-label fade-in delay-1 mb-4">// Olá, mundo</p>
+      <h1 class="fade-in delay-2 text-5xl md:text-7xl font-extrabold leading-tight mb-4" style="letter-spacing: -0.02em;">
+        Higor <span class="neon-text">Silva</span>
+      </h1>
+      <p class="fade-in delay-3 mono text-base md:text-lg mb-6" style="color: #5a7a9a;">
+        Desenvolvedor de Sistemas &nbsp;/&nbsp; Web Dev &nbsp;/&nbsp; Estagiário · Prefeitura de Vila Velha
+      </p>
+      <p class="fade-in delay-4 text-base md:text-lg max-w-xl mb-10" style="color: #7a8fa8; line-height: 1.8;">
+        Transformo ideias complexas em interfaces rápidas, acessíveis e visualmente impactantes.
+        Apaixonado por código limpo e experiências que realmente importam.
+      </p>
+      <div class="fade-in delay-5 flex gap-4 flex-wrap">
+        <a href="#projetos" class="btn-primary">Ver Projetos</a>
+        <a href="#contato" class="btn-primary" style="border-color: #1a2540; color: #7a8fa8;">Contato</a>
+      </div>
+
+
+
+    <div class="absolute bottom-10 right-10 mono text-xs opacity-20 hidden md:block" style="color: var(--neon); line-height: 1.8;">
+      <p>const dev = {</p>
+      <p>&nbsp;&nbsp;name: "Higor",</p>
+      <p>&nbsp;&nbsp;stack: ["Python", "MySQL"],</p>
+      <p>&nbsp;&nbsp;available: true</p>
+      <p>}</p>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre" class="relative px-8 md:px-20 py-24" style="z-index:1;">
+    <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+      <div>
+        <p class="section-label mb-3">// 01. sobre mim</p>
+        <h2 class="text-3xl font-extrabold mb-6">Quem sou eu?</h2>
+        <p class="mb-4 text-sm leading-relaxed" style="color: #7a8fa8;">
+          Desenvolvedor de sistemas em formação, com experiência prática como estagiário na Prefeitura de Vila Velha. Trabalho com desenvolvimento e manutenção de sistemas, bancos de dados e suporte técnico em ambiente real de produção.
+        </p>
+        <p class="mb-6 text-sm leading-relaxed" style="color: #7a8fa8;">
+          Em 2025, conquistei o <strong style="color: var(--neon);">1º lugar no Hackathon Porto SENAI Vitória</strong>, desenvolvendo uma solução tecnológica para a Buaiz Alimentos. Atualmente expandindo o stack com C#/ASP.NET, Java e C++ para Arduino.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag">MySQL</span>
+          <span class="tag">Python</span>
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">Tailwind CSS</span>
+          <span class="tag">C#/ASP.NET</span>
+          <span class="tag">Java</span>
+          <span class="tag">C++ Arduino</span>
+        </div>
+      </div>
+
+      <!-- FOTO DO DESENVOLVEDOR -->
+      <div class="flex justify-center md:justify-end">
+        <div class="neon-border relative" style="width: 260px; height: 300px;">
+          <img src="data:image/jpeg;base64,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"
+               alt="Higor Silva"
+               style="width:260px; height:300px; object-fit:cover; object-position:center top; display:block;" />
+          <!-- Corner decorations -->
+          <div style="position:absolute; top:-1px; left:-1px; width:16px; height:16px; border-top: 2px solid var(--neon); border-left: 2px solid var(--neon);"></div>
+          <div style="position:absolute; bottom:-1px; right:-1px; width:16px; height:16px; border-bottom: 2px solid var(--neon); border-right: 2px solid var(--neon);"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="relative px-8 md:px-20 py-24" style="z-index:1; background: rgba(15,22,35,0.5);">
+    <div class="max-w-5xl mx-auto">
+      <p class="section-label mb-3">// 02. habilidades</p>
+      <h2 class="text-3xl font-extrabold mb-12">Stack & Skills</h2>
+
+      <div class="grid md:grid-cols-2 gap-12">
+        <div>
+          <h3 class="mono text-sm mb-6" style="color: var(--neon);">Web & Frontend</h3>
+          <div class="space-y-5">
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-sm">HTML</span>
+                <span class="mono text-xs" style="color: var(--neon);">90%</span>
+              </div>
+              <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:90%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-sm">CSS</span>
+                <span class="mono text-xs" style="color: var(--neon);">85%</span>
+              </div>
+              <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:85%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-sm">Tailwind CSS</span>
+                <span class="mono text-xs" style="color: var(--neon);">82%</span>
+              </div>
+              <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:82%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-sm">Python</span>
+                <span class="mono text-xs" style="color: var(--neon);">78%</span>
+              </div>
+              <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:78%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-sm">MySQL</span>
+                <span class="mono text-xs" style="color: var(--neon);">80%</span>
+              </div>
+              <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:80%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="mono text-sm mb-6" style="color: #7b5ea7;">Sistemas & Em Andamento</h3>
+          <div class="space-y-5">
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-sm flex items-center gap-2">C# / ASP.NET <span style="font-family:'Space Mono',monospace; font-size:0.6rem; color:#7b5ea7; border:1px solid #7b5ea7; padding:1px 6px; opacity:0.8;">em andamento</span></span>
+                <span class="mono text-xs" style="color: #7b5ea7;">45%</span>
+              </div>
+              <div class="skill-bar-bg">
+                <div class="skill-bar-fill" style="width:45%; background: linear-gradient(90deg, #7b5ea7, #a07ecf);"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-sm flex items-center gap-2">Java <span style="font-family:'Space Mono',monospace; font-size:0.6rem; color:#7b5ea7; border:1px solid #7b5ea7; padding:1px 6px; opacity:0.8;">em andamento</span></span>
+                <span class="mono text-xs" style="color: #7b5ea7;">40%</span>
+              </div>
+              <div class="skill-bar-bg">
+                <div class="skill-bar-fill" style="width:40%; background: linear-gradient(90deg, #7b5ea7, #a07ecf);"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-sm flex items-center gap-2">C++ / Arduino <span style="font-family:'Space Mono',monospace; font-size:0.6rem; color:#7b5ea7; border:1px solid #7b5ea7; padding:1px 6px; opacity:0.8;">em andamento</span></span>
+                <span class="mono text-xs" style="color: #7b5ea7;">35%</span>
+              </div>
+              <div class="skill-bar-bg">
+                <div class="skill-bar-fill" style="width:35%; background: linear-gradient(90deg, #7b5ea7, #a07ecf);"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJETOS -->
+  <section id="projetos" class="relative px-8 md:px-20 py-24" style="z-index:1;">
+    <div class="max-w-5xl mx-auto">
+      <p class="section-label mb-3">// 03. projetos</p>
+      <h2 class="text-3xl font-extrabold mb-4">Trabalhos Recentes</h2>
+      <p class="mono text-xs mb-12" style="color: #3a5070;">// projetos sendo preparados — em breve aqui</p>
+
+      <div class="grid md:grid-cols-3 gap-6">
+
+        <!-- Coming Soon 1 -->
+        <div class="coming-soon-card rounded-none p-8">
+          <div class="coming-soon-pulse text-center">
+            <div style="width:48px; height:48px; border:1px dashed rgba(0,255,224,0.3); display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(0,255,224,0.4)" stroke-width="1.5">
+                <path d="M12 5v14M5 12h14"/>
+              </svg>
+            </div>
+            <p class="mono text-xs mb-2" style="color: rgba(0,255,224,0.5); letter-spacing:0.2em;">COMING SOON</p>
+            <p class="text-xs" style="color: #2a3a50;">Projeto em desenvolvimento</p>
+          </div>
+          <div style="position:absolute; top:8px; right:8px;">
+            <span class="tag" style="opacity:0.4; font-size:0.6rem;">2025</span>
+          </div>
+        </div>
+
+        <!-- Coming Soon 2 -->
+        <div class="coming-soon-card rounded-none p-8">
+          <div class="coming-soon-pulse text-center" style="animation-delay:0.4s;">
+            <div style="width:48px; height:48px; border:1px dashed rgba(123,94,167,0.3); display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(123,94,167,0.5)" stroke-width="1.5">
+                <path d="M12 5v14M5 12h14"/>
+              </svg>
+            </div>
+            <p class="mono text-xs mb-2" style="color: rgba(123,94,167,0.6); letter-spacing:0.2em;">COMING SOON</p>
+            <p class="text-xs" style="color: #2a3a50;">Projeto em desenvolvimento</p>
+          </div>
+          <div style="position:absolute; top:8px; right:8px;">
+            <span class="tag" style="opacity:0.4; font-size:0.6rem; border-color:rgba(123,94,167,0.3); color:#7b5ea7;">2025</span>
+          </div>
+        </div>
+
+        <!-- Coming Soon 3 -->
+        <div class="coming-soon-card rounded-none p-8">
+          <div class="coming-soon-pulse text-center" style="animation-delay:0.8s;">
+            <div style="width:48px; height:48px; border:1px dashed rgba(0,255,224,0.3); display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(0,255,224,0.4)" stroke-width="1.5">
+                <path d="M12 5v14M5 12h14"/>
+              </svg>
+            </div>
+            <p class="mono text-xs mb-2" style="color: rgba(0,255,224,0.5); letter-spacing:0.2em;">COMING SOON</p>
+            <p class="text-xs" style="color: #2a3a50;">Projeto em desenvolvimento</p>
+          </div>
+          <div style="position:absolute; top:8px; right:8px;">
+            <span class="tag" style="opacity:0.4; font-size:0.6rem;">2025</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIÊNCIA -->
+  <section id="experiencia" class="relative px-8 md:px-20 py-24" style="z-index:1; background: rgba(15,22,35,0.5);">
+    <div class="max-w-5xl mx-auto">
+      <p class="section-label mb-3">// 04. experiência & conquistas</p>
+      <h2 class="text-3xl font-extrabold mb-12">Trajetória</h2>
+
+      <!-- DESTAQUE: Hackathon -->
+      <div class="mb-10 p-6 rounded-none" style="background: linear-gradient(135deg, rgba(0,255,224,0.06), rgba(123,94,167,0.06)); border: 1px solid rgba(0,255,224,0.35); position:relative; overflow:hidden;">
+        <div style="position:absolute; top:0; left:0; right:0; height:2px; background: linear-gradient(90deg, var(--neon), #7b5ea7);"></div>
+        <div class="flex flex-wrap items-start gap-4">
+          <div style="width:90px; height:90px; border:1px solid rgba(0,255,224,0.3); display:flex; align-items:center; justify-content:center; flex-shrink:0; background: rgba(0,255,224,0.05);">
+            <div style="text-align:center;">
+              <p class="mono" style="color:var(--neon); font-size:1.5rem; font-weight:bold;">🏆</p>
+              <p class="mono" style="color:var(--neon); font-size:0.55rem; letter-spacing:0.1em;">1º LUGAR</p>
+            </div>
+          </div>
+          <div class="flex-1">
+            <div class="flex flex-wrap items-center gap-3 mb-1">
+              <h3 class="font-extrabold text-lg neon-text">1º Lugar — Hackathon Porto SENAI Vitória</h3>
+              <span class="tag">2025</span>
+            </div>
+            <p class="mono text-xs mb-3" style="color: #5a7a9a;">SENAI Vitória · Competição de Inovação</p>
+            <p class="text-sm leading-relaxed" style="color: #7a8fa8;">
+              Desenvolvimento de solução inovadora para a empresa <strong style="color:#c8d6f0;">Buaiz Alimentos</strong>, com foco em resolução de problemas reais do setor industrial. O projeto envolveu trabalho em equipe, prototipagem rápida e apresentação de proposta tecnológica para bancas avaliadoras.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex gap-6">
+        <div class="flex flex-col items-center" style="padding-top: 5px;">
+          <div class="timeline-dot"></div>
+          <div class="vertical-line flex-1 mt-2"></div>
+        </div>
+
+        <div class="flex-1 space-y-10">
+          <div class="card rounded-none p-6">
+            <div style="position:absolute; top:0; left:0; bottom:0; width:3px; background: linear-gradient(to bottom, var(--neon), transparent);"></div>
+            <div class="flex flex-wrap items-start justify-between gap-2 mb-2">
+              <h3 class="font-bold text-base">Estagiário — Desenvolvimento & Manutenção de Sistemas</h3>
+              <span class="mono text-xs" style="color: var(--neon);">atual</span>
+            </div>
+            <p class="mono text-xs mb-3" style="color: #5a7a9a;">Prefeitura de Vila Velha · Presencial</p>
+            <p class="text-sm leading-relaxed mb-4" style="color: #7a8fa8;">
+              Atuação no desenvolvimento e manutenção de sistemas internos, além de suporte técnico às equipes da prefeitura. Experiência prática com ambientes reais de produção, banco de dados e resolução de problemas de TI no setor público.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tag">Tailwind CSS</span>
+              <span class="tag">C#/ASP.NET</span>
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">Suporte TI</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contato" class="relative px-8 md:px-20 py-24" style="z-index:1;">
+    <div class="max-w-5xl mx-auto">
+      <p class="section-label mb-3">// 05. contato</p>
+      <h2 class="text-3xl font-extrabold mb-4">Vamos conversar?</h2>
+      <p class="text-sm mb-12 max-w-lg" style="color: #7a8fa8;">
+        Aberto a projetos freelance, oportunidades CLT/PJ e colaborações open source. Me manda uma mensagem!
+      </p>
+
+      <div class="grid md:grid-cols-2 gap-12">
+        <div class="space-y-4">
+          <input type="text" placeholder="Seu nome" class="contact-input" />
+          <input type="email" placeholder="Seu e-mail" class="contact-input" />
+          <textarea placeholder="Sua mensagem..." rows="5" class="contact-input" style="resize: none;"></textarea>
+          <button class="btn-primary w-full text-center" style="width:100%;">Enviar Mensagem</button>
+        </div>
+
+        <div class="space-y-6">
+          <div>
+            <p class="mono text-xs mb-1" style="color: var(--neon);">// e-mail</p>
+            <p class="text-sm" style="color: #c8d6f0;">higor.hsda@gmail.com</p>
+          </div>
+          <div>
+            <p class="mono text-xs mb-1" style="color: var(--neon);">// localização</p>
+            <p class="text-sm" style="color: #c8d6f0;">Brasil · Disponível remoto</p>
+          </div>
+          <div>
+            <p class="mono text-xs mb-3" style="color: var(--neon);">// redes</p>
+            <div class="flex gap-4 flex-wrap">
+              <a href="https://github.com/higorsdds-bot" target="_blank" class="btn-primary text-xs" style="padding: 8px 16px;">GitHub</a>
+              <a href="https://www.linkedin.com/in/higor-silva-8a84053ab" target="_blank" class="btn-primary text-xs" style="padding: 8px 16px; border-color: #1a3060; color: #5a8fd0;">LinkedIn</a>
+              <a href="#" class="btn-primary text-xs" style="padding: 8px 16px; border-color: #1a2a40; color: #5a7a9a;">Twitter</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="px-8 md:px-20 py-8 text-center" style="border-top: 1px solid var(--border); z-index:1; position:relative;">
+    <p class="mono text-xs" style="color: #2a3a50;">
+      <span style="color: var(--neon);">&lt;</span>
+      Higor Silva — 2025
+      <span style="color: var(--neon);">/&gt;</span>
+      &nbsp; Feito com ☕ e muitas linhas de código.
+    </p>
+  </footer>
+
+</body>
+</html>
